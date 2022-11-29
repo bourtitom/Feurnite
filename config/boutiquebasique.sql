@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 08 nov. 2022 à 14:35
+-- Généré le : mar. 29 nov. 2022 à 17:19
 -- Version du serveur : 10.4.21-MariaDB
 -- Version de PHP : 8.0.12
 
@@ -18,102 +18,84 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `boutiquebasique`
+-- Base de données : `melcarpg`
 --
-CREATE DATABASE IF NOT EXISTS `boutiquebasique` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `boutiquebasique`;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `client`
+-- Structure de la table `category_produit`
 --
 
-CREATE TABLE `client` (
-                          `CLIENT_ID` int(11) NOT NULL,
-                          `CLIENT_PRENOM` varchar(50) NOT NULL,
-                          `CLIENT_NOM` varchar(50) NOT NULL,
-                          `CLIENT_NAISSANCE` date DEFAULT NULL,
-                          `CLIENT_MAIL` varchar(200) NOT NULL,
-                          `CLIENT_PASSWORD` varchar(200) NOT NULL
+CREATE TABLE `category_produit` (
+  `CATEGORY_PRODUIT_ID` int(11) NOT NULL,
+  `CATEGORY_PRODUIT_NOM` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Déchargement des données de la table `client`
+-- Déchargement des données de la table `category_produit`
 --
 
-INSERT INTO `client` (`CLIENT_ID`, `CLIENT_PRENOM`, `CLIENT_NOM`, `CLIENT_NAISSANCE`, `CLIENT_MAIL`, `CLIENT_PASSWORD`) VALUES
-                                                                                                                            (3, 'Hugoo', 'DECRYPT', '2000-07-14', 'hdecrypt@gmail.com', '1234'),
-                                                                                                                            (4, 'Daniel', 'GAGNANT', '1994-07-25', 'dgagnant@gmail.com', '$2y$10$tmxl4SHtaumjQtmonHPyROJwiB.p7eH8jJGul./xtczeIaK5q4/dS'),
-                                                                                                                            (5, 'Melchior', 'CHEVALIER', '2010-10-14', 'mchevalier@gmail.com', '1234'),
-                                                                                                                            (11, 'Mathias', 'GHANEM', '1998-06-07', 'mghanam@gmail.com', '1234'),
-                                                                                                                            (16, 'titi', 'GROSMINET', '1991-07-13', 'tgrominet@gmail.com', '1234'),
-                                                                                                                            (17, 'Salima', 'THEUSE', '1612-06-28', 'stheuse@gmail.com', '$2y$10$OqZGZLP2sMyHfUwxuDakKe1q3wkwrBuQnjMuLtV/PmyCL/DJJNNWu');
+INSERT INTO `category_produit` (`CATEGORY_PRODUIT_ID`, `CATEGORY_PRODUIT_NOM`) VALUES
+(1, 'forgeron'),
+(2, 'marchand'),
+(3, 'dompteur'),
+(4, 'boulanger'),
+(5, 'alchimiste'),
+(6, 'chasseurs'),
+(7, 'quest');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `commande`
+-- Structure de la table `classe`
 --
 
-CREATE TABLE `commande` (
-                            `COMMANDE_ID` int(11) NOT NULL,
-                            `CLIENT_ID` int(11) NOT NULL,
-                            `COMMANDE_DATE` datetime NOT NULL DEFAULT current_timestamp()
+CREATE TABLE `classe` (
+  `CLASS_ID` int(11) NOT NULL,
+  `CLASS_NOM` varchar(50) NOT NULL,
+  `CLASS_AVATAR` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Déchargement des données de la table `commande`
+-- Déchargement des données de la table `classe`
 --
 
-INSERT INTO `commande` (`COMMANDE_ID`, `CLIENT_ID`, `COMMANDE_DATE`) VALUES
-                                                                         (1, 3, '2016-09-01 00:00:00'),
-                                                                         (2, 3, '2018-07-04 00:00:00'),
-                                                                         (3, 4, '2019-09-04 00:00:00'),
-                                                                         (4, 4, '2022-06-05 00:00:00'),
-                                                                         (6, 17, '2022-10-28 00:00:00'),
-                                                                         (7, 17, '2022-10-28 00:00:00'),
-                                                                         (8, 4, '2022-11-07 00:00:00'),
-                                                                         (9, 4, '2022-11-07 10:40:14'),
-                                                                         (10, 4, '2022-11-07 16:21:21');
+INSERT INTO `classe` (`CLASS_ID`, `CLASS_NOM`, `CLASS_AVATAR`) VALUES
+(1, 'guerrier', 'warrior.png'),
+(2, 'archer', 'archer.png'),
+(3, 'voleur', 'voleur.png'),
+(4, 'mage', 'wizard.png');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `lignecommande`
+-- Structure de la table `perssonage`
 --
 
-CREATE TABLE `lignecommande` (
-                                 `COMMANDE_ID` int(11) NOT NULL,
-                                 `PRODUIT_ID` int(11) NOT NULL,
-                                 `QUANTITE` int(11) NOT NULL,
-                                 `PRIX` decimal(10,0) DEFAULT NULL
+CREATE TABLE `perssonage` (
+  `PERSO_ID` int(11) NOT NULL,
+  `USER_ID` int(11) NOT NULL,
+  `CLASS_ID` int(11) NOT NULL,
+  `TITLE_ID` int(11) DEFAULT NULL,
+  `PERSO_NOM` char(10) NOT NULL,
+  `PERSO_LEVEL` int(11) NOT NULL,
+  `PERSO_MONEY` decimal(10,0) NOT NULL,
+  `PERSO_SEXE` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Déchargement des données de la table `lignecommande`
+-- Structure de la table `pnj`
 --
 
-INSERT INTO `lignecommande` (`COMMANDE_ID`, `PRODUIT_ID`, `QUANTITE`, `PRIX`) VALUES
-                                                                                  (1, 1, 1, '1801'),
-                                                                                  (1, 4, 1, '550'),
-                                                                                  (2, 2, 2, '50'),
-                                                                                  (3, 3, 2, '900'),
-                                                                                  (4, 1, 1, '1801'),
-                                                                                  (6, 2, 2, '40'),
-                                                                                  (6, 13, 1, '190'),
-                                                                                  (6, 19, 1, '27'),
-                                                                                  (6, 22, 1, '55'),
-                                                                                  (7, 19, 2, '27'),
-                                                                                  (7, 22, 1, '55'),
-                                                                                  (8, 2, 1, '40'),
-                                                                                  (8, 19, 1, '27'),
-                                                                                  (9, 13, 1, '190'),
-                                                                                  (9, 19, 1, '27'),
-                                                                                  (10, 2, 2, '40'),
-                                                                                  (10, 13, 3, '190'),
-                                                                                  (10, 19, 1, '27'),
-                                                                                  (10, 22, 1, '55');
+CREATE TABLE `pnj` (
+  `PNJ_ID` int(11) NOT NULL,
+  `CATEGORY_PRODUIT_ID` int(11) NOT NULL,
+  `PNJ_NAME` varchar(50) NOT NULL,
+  `PNJ_AVATAR` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -122,93 +104,285 @@ INSERT INTO `lignecommande` (`COMMANDE_ID`, `PRODUIT_ID`, `QUANTITE`, `PRIX`) VA
 --
 
 CREATE TABLE `produit` (
-                           `PRODUIT_ID` int(11) NOT NULL,
-                           `PRODUIT_NOM` varchar(50) NOT NULL,
-                           `PRODUIT_PRIX` decimal(10,0) NOT NULL,
-                           `PRODUIT_IMAGE` varchar(100) DEFAULT NULL
+  `PRODUIT_ID` int(11) NOT NULL,
+  `CATEGORY_PRODUIT_ID` int(11) NOT NULL,
+  `PRODUIT_NOM` varchar(50) NOT NULL,
+  `PRODUIT_PRIX` decimal(10,0) NOT NULL,
+  `PRODUIT_IMG` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `produit_recompense`
+--
+
+CREATE TABLE `produit_recompense` (
+  `PRODUIT_ID` int(11) NOT NULL,
+  `RECOMPENSE_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `quest`
+--
+
+CREATE TABLE `quest` (
+  `QUEST_ID` int(11) NOT NULL,
+  `RECOMPENSE_ID` int(11) DEFAULT NULL,
+  `QUEST_TITLE` varchar(50) NOT NULL,
+  `QUEST_RECOMPENSE` longtext NOT NULL,
+  `QUEST_DESC` varchar(250) NOT NULL,
+  `QUEST_LEVEL` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `quest_pnj`
+--
+
+CREATE TABLE `quest_pnj` (
+  `PNJ_ID` int(11) NOT NULL,
+  `QUEST_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `recompense`
+--
+
+CREATE TABLE `recompense` (
+  `RECOMPENSE_ID` int(11) NOT NULL,
+  `RECOMPENSE_LEVEL` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `title`
+--
+
+CREATE TABLE `title` (
+  `TITLE_ID` int(11) NOT NULL,
+  `TITLE_NAME` varchar(50) NOT NULL,
+  `TITLE_LOGO` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Déchargement des données de la table `produit`
+-- Déchargement des données de la table `title`
 --
 
-INSERT INTO `produit` (`PRODUIT_ID`, `PRODUIT_NOM`, `PRODUIT_PRIX`, `PRODUIT_IMAGE`) VALUES
-                                                                                         (1, 'super ordinateur', '1218', 'superordi.webp'),
-                                                                                         (2, 'souris ergonomique', '40', 'sourisergo.jfif'),
-                                                                                         (3, 'ecran plat 2m x 2m', '990', 'ecranplat.jpg'),
-                                                                                         (4, 'enceinte sono ultra puissante', '580', 'enceintesono.jpg'),
-                                                                                         (13, 'CLAVIER RETROECLAIRE', '190', 'clavier.webp'),
-                                                                                         (19, 'SuperSouris', '27', 'supersouris.webp'),
-                                                                                         (22, 'clef usb 20 go', '55', 'clefusbpro.jpg');
+INSERT INTO `title` (`TITLE_ID`, `TITLE_NAME`, `TITLE_LOGO`) VALUES
+(1, 'Noob', 'noob.png'),
+(2, 'Chasseurs de slime', 'chasseurslime.png'),
+(3, 'dieu de la lame', 'ddll.png');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `user`
+--
+
+CREATE TABLE `user` (
+  `USER_ID` int(11) NOT NULL,
+  `USER_PSEUDO` varchar(50) NOT NULL,
+  `USER_MAIL` varchar(50) NOT NULL,
+  `USER_PASSWORD` varchar(200) NOT NULL,
+  `USER_CODE` mediumint(50) DEFAULT NULL,
+  `USER_ROLE` enum('USER','ADMIN') NOT NULL DEFAULT 'USER',
+  `USER_STATUT` enum('check','uncheck') NOT NULL DEFAULT 'uncheck'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `user`
+--
+
+INSERT INTO `user` (`USER_ID`, `USER_PSEUDO`, `USER_MAIL`, `USER_PASSWORD`, `USER_CODE`, `USER_ROLE`, `USER_STATUT`) VALUES
+(8, 'Pedro', 'tbourti@edenschool.fr', '$2y$10$dkJndRDkNFkwKdGKnBxvNuEuzCazbFHwgpy/l0mIXLJsyt2UfBnVG', 8388607, 'USER', 'uncheck'),
+(9, 'feur', 'feur@nite', '$2y$10$bN.NQ2ef4yTkXOBJrVVX7O2PPqC25SNekyb3VhTK4pb31TYFIQn46', 8388607, 'USER', 'uncheck');
 
 --
 -- Index pour les tables déchargées
 --
 
 --
--- Index pour la table `client`
+-- Index pour la table `category_produit`
 --
-ALTER TABLE `client`
-    ADD PRIMARY KEY (`CLIENT_ID`);
+ALTER TABLE `category_produit`
+  ADD PRIMARY KEY (`CATEGORY_PRODUIT_ID`);
 
 --
--- Index pour la table `commande`
+-- Index pour la table `classe`
 --
-ALTER TABLE `commande`
-    ADD PRIMARY KEY (`COMMANDE_ID`),
-  ADD KEY `FK_CLIENT_COMMANDE` (`CLIENT_ID`);
+ALTER TABLE `classe`
+  ADD PRIMARY KEY (`CLASS_ID`);
 
 --
--- Index pour la table `lignecommande`
+-- Index pour la table `perssonage`
 --
-ALTER TABLE `lignecommande`
-    ADD PRIMARY KEY (`COMMANDE_ID`,`PRODUIT_ID`),
-  ADD KEY `FK_LIGNECOMMANDE_PRODUIT` (`PRODUIT_ID`);
+ALTER TABLE `perssonage`
+  ADD PRIMARY KEY (`PERSO_ID`),
+  ADD KEY `FK_AVOIR` (`USER_ID`),
+  ADD KEY `FK_CLASSER` (`CLASS_ID`),
+  ADD KEY `FK_HONORER` (`TITLE_ID`);
+
+--
+-- Index pour la table `pnj`
+--
+ALTER TABLE `pnj`
+  ADD PRIMARY KEY (`PNJ_ID`),
+  ADD KEY `FK_PNJTYPER` (`CATEGORY_PRODUIT_ID`);
 
 --
 -- Index pour la table `produit`
 --
 ALTER TABLE `produit`
-    ADD PRIMARY KEY (`PRODUIT_ID`);
+  ADD PRIMARY KEY (`PRODUIT_ID`),
+  ADD KEY `FK_PRODUITTYPER` (`CATEGORY_PRODUIT_ID`);
+
+--
+-- Index pour la table `produit_recompense`
+--
+ALTER TABLE `produit_recompense`
+  ADD PRIMARY KEY (`PRODUIT_ID`,`RECOMPENSE_ID`),
+  ADD KEY `FK_ASSOCIER2` (`RECOMPENSE_ID`);
+
+--
+-- Index pour la table `quest`
+--
+ALTER TABLE `quest`
+  ADD PRIMARY KEY (`QUEST_ID`),
+  ADD KEY `FK_RECOMPENSER` (`RECOMPENSE_ID`);
+
+--
+-- Index pour la table `quest_pnj`
+--
+ALTER TABLE `quest_pnj`
+  ADD PRIMARY KEY (`PNJ_ID`,`QUEST_ID`),
+  ADD KEY `FK_DONNER2` (`QUEST_ID`);
+
+--
+-- Index pour la table `recompense`
+--
+ALTER TABLE `recompense`
+  ADD PRIMARY KEY (`RECOMPENSE_ID`);
+
+--
+-- Index pour la table `title`
+--
+ALTER TABLE `title`
+  ADD PRIMARY KEY (`TITLE_ID`);
+
+--
+-- Index pour la table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`USER_ID`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT pour la table `client`
+-- AUTO_INCREMENT pour la table `category_produit`
 --
-ALTER TABLE `client`
-    MODIFY `CLIENT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+ALTER TABLE `category_produit`
+  MODIFY `CATEGORY_PRODUIT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT pour la table `commande`
+-- AUTO_INCREMENT pour la table `classe`
 --
-ALTER TABLE `commande`
-    MODIFY `COMMANDE_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `classe`
+  MODIFY `CLASS_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT pour la table `perssonage`
+--
+ALTER TABLE `perssonage`
+  MODIFY `PERSO_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `pnj`
+--
+ALTER TABLE `pnj`
+  MODIFY `PNJ_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `produit`
 --
 ALTER TABLE `produit`
-    MODIFY `PRODUIT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `PRODUIT_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `quest`
+--
+ALTER TABLE `quest`
+  MODIFY `QUEST_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `recompense`
+--
+ALTER TABLE `recompense`
+  MODIFY `RECOMPENSE_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `title`
+--
+ALTER TABLE `title`
+  MODIFY `TITLE_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pour la table `user`
+--
+ALTER TABLE `user`
+  MODIFY `USER_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Contraintes pour les tables déchargées
 --
 
 --
--- Contraintes pour la table `commande`
+-- Contraintes pour la table `perssonage`
 --
-ALTER TABLE `commande`
-    ADD CONSTRAINT `FK_CLIENT_COMMANDE` FOREIGN KEY (`CLIENT_ID`) REFERENCES `client` (`CLIENT_ID`);
+ALTER TABLE `perssonage`
+  ADD CONSTRAINT `FK_AVOIR` FOREIGN KEY (`USER_ID`) REFERENCES `user` (`USER_ID`),
+  ADD CONSTRAINT `FK_CLASSER` FOREIGN KEY (`CLASS_ID`) REFERENCES `classe` (`CLASS_ID`),
+  ADD CONSTRAINT `FK_HONORER` FOREIGN KEY (`TITLE_ID`) REFERENCES `title` (`TITLE_ID`);
 
 --
--- Contraintes pour la table `lignecommande`
+-- Contraintes pour la table `pnj`
 --
-ALTER TABLE `lignecommande`
-    ADD CONSTRAINT `FK_LIGNECOMMANDE_COMMANDE` FOREIGN KEY (`COMMANDE_ID`) REFERENCES `commande` (`COMMANDE_ID`),
-  ADD CONSTRAINT `FK_LIGNECOMMANDE_PRODUIT` FOREIGN KEY (`PRODUIT_ID`) REFERENCES `produit` (`PRODUIT_ID`);
+ALTER TABLE `pnj`
+  ADD CONSTRAINT `FK_PNJTYPER` FOREIGN KEY (`CATEGORY_PRODUIT_ID`) REFERENCES `category_produit` (`CATEGORY_PRODUIT_ID`);
+
+--
+-- Contraintes pour la table `produit`
+--
+ALTER TABLE `produit`
+  ADD CONSTRAINT `FK_PRODUITTYPER` FOREIGN KEY (`CATEGORY_PRODUIT_ID`) REFERENCES `category_produit` (`CATEGORY_PRODUIT_ID`);
+
+--
+-- Contraintes pour la table `produit_recompense`
+--
+ALTER TABLE `produit_recompense`
+  ADD CONSTRAINT `FK_ASSOCIER` FOREIGN KEY (`PRODUIT_ID`) REFERENCES `produit` (`PRODUIT_ID`),
+  ADD CONSTRAINT `FK_ASSOCIER2` FOREIGN KEY (`RECOMPENSE_ID`) REFERENCES `recompense` (`RECOMPENSE_ID`);
+
+--
+-- Contraintes pour la table `quest`
+--
+ALTER TABLE `quest`
+  ADD CONSTRAINT `FK_RECOMPENSER` FOREIGN KEY (`RECOMPENSE_ID`) REFERENCES `recompense` (`RECOMPENSE_ID`);
+
+--
+-- Contraintes pour la table `quest_pnj`
+--
+ALTER TABLE `quest_pnj`
+  ADD CONSTRAINT `FK_DONNER` FOREIGN KEY (`PNJ_ID`) REFERENCES `pnj` (`PNJ_ID`),
+  ADD CONSTRAINT `FK_DONNER2` FOREIGN KEY (`QUEST_ID`) REFERENCES `quest` (`QUEST_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
